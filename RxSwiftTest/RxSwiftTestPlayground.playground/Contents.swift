@@ -3,23 +3,110 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 import RxSwift
 
+example("Variables") {
+    let disposablebag = DisposeBag()
+    
+    let variable = Variable("A")
+    
+    variable.asObservable().subscribe(onNext: {
+     print($0)
+        }).disposed(by: disposablebag)
+    
+    variable.value = "B"
+}
+
+/*
+example("ReplaySubject") {
+    let disposablebag = DisposeBag()
+    
+//    let subject = ReplaySubject<String>.create(bufferSize: 1)
+//
+//    subject.subscribe {
+//        print("First subscription: ", $0)
+//    }.disposed(by: disposablebag)
+//
+//    subject.onNext("a")
+//    subject.onNext("b")
+//
+//    subject.subscribe {
+//        print("Second subscription: ", $0)
+//    }.disposed(by: disposablebag)
+//
+//    subject.onNext("c")
+//    subject.onNext("d")
+    
+    let subject = ReplaySubject<Int>.create(bufferSize: 3)
+    
+    subject.onNext(1)
+    subject.onNext(2)
+    subject.onNext(3)
+    subject.onNext(4)
+    
+    subject.subscribe {
+        print($0)
+    }.disposed(by: disposablebag)
+}
+
+
+example("BehaviourSubject") {
+    let disposablebag = DisposeBag()
+    let subject = BehaviorSubject(value: 1) // [1]
+    
+    let firstSubscription = subject.subscribe(onNext: {
+        print(#line, $0)
+    }).disposed(by: disposablebag)
+    
+    subject.onNext(2) // [1, 2]
+    subject.onNext(3) // [1, 2, 3]
+    
+    let secondSubscription = subject.map({ $0 + 2 }).subscribe(onNext: {
+        print(#line, $0) // [3]
+        }).disposed(by: disposablebag)
+}
+
+example("PublishSubject") {
+    let disposablebag = DisposeBag()
+    
+    let subject = PublishSubject<String>()
+    
+    subject.subscribe {
+        print("Subscription First: ", $0)
+    }.disposed(by: disposablebag)
+    
+    enum myError: Error {
+        case Test
+    }
+    
+    subject.on(.next("Hello"))
+//    subject.onCompleted()
+//    subject.onError(myError.Test)
+    subject.onNext("RxSwift")
+    
+    subject.subscribe(onNext: {
+        print("Subscription Second: ",$0)
+        }).disposed(by: disposablebag)
+    
+    subject.onNext("Hi!")
+    subject.onNext("My name is Kostya")
+}
+
 example("") {
     let intObservable = Observable.just(30)
     let stringObservable = Observable.just("Hello")
 }
 
-//example("just") {
-//    // observable
-//    let observable = Observable.just("Hello, RxSwift!")
-//
-//    // observer
-//    observable.subscribe( { (event: Event<String>) in
-//        print(event)
-//    })
-//
-//}
+example("just") {
+    // observable
+    let observable = Observable.just("Hello, RxSwift!")
 
-/*
+    // observer
+    observable.subscribe( { (event: Event<String>) in
+        print(event)
+    })
+
+}
+
+
 example("of") {
     let observable = Observable.of(1, 2, 3, 4, 5)
     observable.subscribe({ (event) in
@@ -93,7 +180,7 @@ example("map") {
         print(event)
     }
 }
-*/
+
 
 example("merge") {
     let firstSeq = Observable.of(1, 2, 3)
@@ -107,3 +194,4 @@ example("merge") {
         print(event)
     }
 }
+*/
